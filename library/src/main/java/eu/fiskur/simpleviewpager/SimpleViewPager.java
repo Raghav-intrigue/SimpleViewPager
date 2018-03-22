@@ -9,8 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +30,7 @@ public class SimpleViewPager extends RelativeLayout {
   //Xml attributes
   private boolean forceSquare = false;
   private boolean vertical = false;
+  private boolean useIndicator = false;
   private int circlesPaddingTop = 0;
   private int circlesPaddingBottom = 0;
   private int scaleType = -1;
@@ -118,7 +117,14 @@ public class SimpleViewPager extends RelativeLayout {
   }
 
   private static final String TAG = "SimpleViewPager";
+
+  public void cancelIndicator(){
+    useIndicator = false;
+    circleLayout.removeAllViews();
+  }
+
   public void setupIndicator(int unselectedColor, int selectedColor) {
+    useIndicator = true;
     selectedCircle = ContextCompat.getDrawable(context, circle);
     selectedCircle.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
@@ -197,6 +203,9 @@ public class SimpleViewPager extends RelativeLayout {
   }
 
   private void resetIndicator() {
+    if(!useIndicator){
+      return;
+    }
     if (circleLayout == null) {
       return;
     }
@@ -207,6 +216,9 @@ public class SimpleViewPager extends RelativeLayout {
   }
 
   private void setIndicator(int index) {
+    if(!useIndicator){
+      return;
+    }
     currentIndicator = index;
     int imageCount = adapter.getCount();
 
