@@ -145,6 +145,7 @@ public class SimpleViewPager extends RelativeLayout {
       params.addRule(RelativeLayout.ALIGN_LEFT);
       params.addRule(RelativeLayout.CENTER_VERTICAL);
     }else{
+      circleLayout.setPadding(0, 0, 0, circlesPaddingBottom);
       circleLayout.setOrientation(LinearLayout.HORIZONTAL);
       params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
       params.addRule(RelativeLayout.CENTER_HORIZONTAL);
