@@ -2,9 +2,9 @@ package eu.fiskur.simpleviewpager;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,7 +15,7 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
   private static final int MODE_URLS = 0;
   private static final int MODE_DRAWABLES = 1;
   private static final int MODE_IDS = 2;
-  private int mode = MODE_URLS;
+  private int mode;
 
   private Context context;
 
@@ -25,8 +25,9 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
 
   private ImageURLLoader imageURLLoader;
   private ImageResourceLoader imageResourceLoader;
-  private ImageView.ScaleType scaleType = null;
+  private ImageView.ScaleType scaleType;
 
+  @SuppressWarnings("WeakerAccess")
   public SimpleViewPagerAdapter(Context context, String[] imageUrls, ImageURLLoader imageURLLoader, ImageView.ScaleType scaleType) {
     mode = MODE_URLS;
     this.context = context;
@@ -50,6 +51,7 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
     }
   }
 
+  @SuppressWarnings("WeakerAccess")
   public SimpleViewPagerAdapter(Context context, int[] resourceIds, ImageResourceLoader imageResourceLoader, ImageView.ScaleType scaleType) {
     mode = MODE_IDS;
     this.context = context;
@@ -62,7 +64,9 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
     }
   }
 
-  @Override public Object instantiateItem(ViewGroup container, int position) {
+  @NonNull
+  @Override
+  public Object instantiateItem(@NonNull ViewGroup container, int position) {
     ImageView imageView = new ImageView(context);
 
     if (mode == MODE_URLS) {
@@ -70,6 +74,7 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
     }
 
     imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.WRAP_CONTENT));
+    imageView.setAdjustViewBounds(true);
 
     if (scaleType != null) {
       imageView.setScaleType(scaleType);
@@ -112,11 +117,13 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
     }
   }
 
-  @Override public boolean isViewFromObject(View view, Object object) {
-    return view == ((ImageView) object);
+  @Override
+  public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+    return view == object;
   }
 
-  @Override public void destroyItem(ViewGroup container, int position, Object object) {
+  @Override
+  public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
     if(object instanceof ImageView) {
       container.removeView((ImageView) object);
     }

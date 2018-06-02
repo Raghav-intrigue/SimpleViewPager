@@ -1,5 +1,7 @@
 package eu.fiskur.simpleviewpager;
 
+import static eu.fiskur.simpleviewpager.R.drawable.circle;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -14,8 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import static eu.fiskur.simpleviewpager.R.drawable.circle;
-
+@SuppressWarnings("unused")
 public class SimpleViewPager extends RelativeLayout {
   private SimpleViewPagerAdapter adapter;
 
@@ -124,6 +125,7 @@ public class SimpleViewPager extends RelativeLayout {
   }
 
   public void setupIndicator(int unselectedColor, int selectedColor) {
+
     useIndicator = true;
     selectedCircle = ContextCompat.getDrawable(context, circle);
     selectedCircle.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
@@ -151,7 +153,7 @@ public class SimpleViewPager extends RelativeLayout {
       params.addRule(RelativeLayout.CENTER_HORIZONTAL);
     }
 
-    params.bottomMargin = 75;
+    params.bottomMargin = 0;
     circleLayout.setLayoutParams(params);
 
     addView(circleLayout);
@@ -241,6 +243,7 @@ public class SimpleViewPager extends RelativeLayout {
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     if (forceSquare) {
+      //noinspection SuspiciousNameCombination
       super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     } else {
       super.onMeasure(widthMeasureSpec, heightMeasureSpec);
